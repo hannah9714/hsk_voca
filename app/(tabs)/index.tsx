@@ -210,7 +210,7 @@ export default function App() {
                     <WrongWordCard key={word.id}>
                       <WrongZh>{word.zh}</WrongZh>
                       <WrongInfo>{word.pinyin}</WrongInfo>
-                      <WrongKo>{word.ko}</WrongKo>
+                      <WrongKo>{word.ko.join(", ")}</WrongKo>
                     </WrongWordCard>
                   ))
                 )}

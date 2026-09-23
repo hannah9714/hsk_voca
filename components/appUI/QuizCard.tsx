@@ -16,7 +16,7 @@ export default function QuizCard({
         <CardText type="zh">{word.zh}</CardText>
       ) : (
         <CardTextContainer>
-          <CardText type="ko">{word.ko}</CardText>
+          <CardText type="ko">{word.ko.join(", ")}</CardText>
 
           <PinyinButton
             onPress={(e) => {

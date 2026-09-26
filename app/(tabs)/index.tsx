@@ -1,6 +1,6 @@
 import Header from "@/components/appUI/Header";
 import QuizCard from "@/components/appUI/QuizCard";
-import { Day2 } from "@/constants/hskD2";
+import { Day2, Day3, Day4 } from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Animated } from "react-native";
@@ -8,7 +8,11 @@ import styled from "styled-components/native";
 const PAGE_SIZE = 8;
 
 export default function App() {
-  const WORD_BOOKS = [{ id: "Day 2", title: "Day 2", data: Day2 }];
+  const WORD_BOOKS = [
+    { id: "Day 2", title: "Day 2", data: Day2 },
+    { id: "Day 3", title: "Day 3", data: Day3 },
+    { id: "Day 4", title: "Day 4", data: Day4 },
+  ];
 
   const { refresh } = useLocalSearchParams();
 

@@ -185,6 +185,60 @@ export const Day2 = [
     pinyin: "shuòshì",
     ko: ["석사", "석사 학위"],
   },
+  {
+    id: 32,
+    zh: "博士",
+    pinyin: "bóshì",
+    ko: ["박사", "박사 학위"],
+  },
+  {
+    id: 33,
+    zh: "将来",
+    pinyin: "jiānglái",
+    ko: ["장래", "미래"],
+  },
+  {
+    id: 34,
+    zh: "咱们",
+    pinyin: "zánmen",
+    ko: ["우리", "우리들"],
+  },
+  {
+    id: 35,
+    zh: "俩",
+    pinyin: "liǎ",
+    ko: ["두 사람", "두 개"],
+  },
+  {
+    id: 36,
+    zh: "打招呼",
+    pinyin: "dǎ zhāohu",
+    ko: ["인사하다"],
+  },
+  {
+    id: 37,
+    zh: "商量",
+    pinyin: "shāngliang",
+    ko: ["상의하다", "의논하다"],
+  },
+  {
+    id: 38,
+    zh: "著名",
+    pinyin: "zhùmíng",
+    ko: ["저명하다", "유명하다"],
+  },
+  {
+    id: 39,
+    zh: "管理",
+    pinyin: "guǎnlǐ",
+    ko: ["관리하다", "돌보다"],
+  },
+  {
+    id: 40,
+    zh: "表扬",
+    pinyin: "biǎoyáng",
+    ko: ["칭찬하다"],
+  },
 ];
 
 export default Day2;

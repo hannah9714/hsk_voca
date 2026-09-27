@@ -1,10 +1,12 @@
 import Header from "@/components/appUI/Header";
 import QuizCard from "@/components/appUI/QuizCard";
-import { Day2, Day3, Day4 } from "@/constants/hskDay/hskDAll";
+import { Day2, Day3, Day4, Day5 } from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
+import * as Speech from "expo-speech";
 import { useEffect, useRef, useState } from "react";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
+
 const PAGE_SIZE = 8;
 
 export default function App() {
@@ -12,6 +14,7 @@ export default function App() {
     { id: "Day 2", title: "Day 2", data: Day2 },
     { id: "Day 3", title: "Day 3", data: Day3 },
     { id: "Day 4", title: "Day 4", data: Day4 },
+    { id: "Day 5", title: "Day 5", data: Day5 },
   ];
 
   const { refresh } = useLocalSearchParams();
@@ -166,6 +169,16 @@ export default function App() {
     };
   };
 
+  const speakChinese = (text) => {
+    Speech.stop();
+
+    Speech.speak(text, {
+      language: "zh-CN",
+      rate: 0.75,
+      pitch: 1.0,
+    });
+  };
+
   const resetGame = () => {
     setCurrentPage(0);
 
@@ -206,14 +219,32 @@ export default function App() {
             <ResultBox>
               <ResultTitle>틀린 단어</ResultTitle>
 
-              <ResultScroll>
+              <ResultScroll
+                contentContainerStyle={{
+                  paddingBottom: 30,
+                }}
+              >
                 {wrongWords.length === 0 ? (
                   <ResultText>틀린 단어가 없어요 🎉</ResultText>
                 ) : (
                   wrongWords.map((word) => (
                     <WrongWordCard key={word.id}>
-                      <WrongZh>{word.zh}</WrongZh>
-                      <WrongInfo>{word.pinyin}</WrongInfo>
+                      <WrongTopRow>
+                        <WrongZh>{word.zh}</WrongZh>
+
+                        <SoundButton onPress={() => speakChinese(word.zh)}>
+                          <SoundButtonText>🔊</SoundButtonText>
+                        </SoundButton>
+                      </WrongTopRow>
+
+                      <PinyinRow>
+                        <WrongInfo>{word.pinyin}</WrongInfo>
+
+                        <SmallSoundButton onPress={() => speakChinese(word.zh)}>
+                          <SmallSoundText>발음 듣기</SmallSoundText>
+                        </SmallSoundButton>
+                      </PinyinRow>
+
                       <WrongKo>{word.ko.join(", ")}</WrongKo>
                     </WrongWordCard>
                   ))
@@ -225,53 +256,56 @@ export default function App() {
               </RestartButton>
             </ResultBox>
           ) : (
-            <InfoText>
-              {currentPage + 1} / {totalPage} 페이지
-            </InfoText>
+            <>
+              <InfoText>
+                {currentPage + 1} / {totalPage} 페이지
+              </InfoText>
+
+              <ScrollArea>
+                <QuizBox>
+                  <Column>
+                    {leftCards.map((word) => {
+                      const isSelected = selectedEn?.id === word.id;
+
+                      return (
+                        <QuizCard
+                          key={word.id}
+                          word={word}
+                          type="zh"
+                          selected={isSelected}
+                          style={getShakeStyle(isSelected)}
+                          onPress={() => handleChineseClick(word)}
+                        />
+                      );
+                    })}
+                  </Column>
+
+                  <Column>
+                    {rightCards.map((word) => {
+                      const isSelected = selectedKo?.id === word.id;
+
+                      return (
+                        <QuizCard
+                          key={word.id}
+                          word={word}
+                          type="ko"
+                          selected={isSelected}
+                          style={getShakeStyle(isSelected)}
+                          onPress={() => handleKoreanClick(word)}
+                          showPinyin={showPinyinId === word.id}
+                          onTogglePinyin={() =>
+                            setShowPinyinId((prev) =>
+                              prev === word.id ? null : word.id,
+                            )
+                          }
+                        />
+                      );
+                    })}
+                  </Column>
+                </QuizBox>
+              </ScrollArea>
+            </>
           )}
-          <ScrollArea>
-            <QuizBox>
-              <Column>
-                {leftCards.map((word) => {
-                  const isSelected = selectedEn?.id === word.id;
-
-                  return (
-                    <QuizCard
-                      key={word.id}
-                      word={word}
-                      type="zh"
-                      selected={isSelected}
-                      style={getShakeStyle(isSelected)}
-                      onPress={() => handleChineseClick(word)}
-                    />
-                  );
-                })}
-              </Column>
-
-              <Column>
-                {rightCards.map((word) => {
-                  const isSelected = selectedKo?.id === word.id;
-
-                  return (
-                    <QuizCard
-                      key={word.id}
-                      word={word}
-                      type="ko"
-                      selected={isSelected}
-                      style={getShakeStyle(isSelected)}
-                      onPress={() => handleKoreanClick(word)}
-                      showPinyin={showPinyinId === word.id}
-                      onTogglePinyin={() =>
-                        setShowPinyinId((prev) =>
-                          prev === word.id ? null : word.id,
-                        )
-                      }
-                    />
-                  );
-                })}
-              </Column>
-            </QuizBox>
-          </ScrollArea>
         </ContentContainer>
       )}
     </Container>
@@ -330,6 +364,7 @@ const RestartText = styled.Text`
 const ResultBox = styled.View`
   flex: 1;
   padding: 24px;
+  padding-bottom: 12px;
 `;
 
 const ResultTitle = styled.Text`
@@ -342,6 +377,7 @@ const ResultTitle = styled.Text`
 
 const ResultScroll = styled.ScrollView`
   flex: 1;
+  width: 100%;
 `;
 
 const ResultText = styled.Text`
@@ -353,28 +389,29 @@ const ResultText = styled.Text`
 
 const WrongWordCard = styled.View`
   background-color: #fffdf0;
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 12px;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 14px;
+  min-height: 125px;
 `;
 
 const WrongZh = styled.Text`
   color: #263f40;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
 `;
 
 const WrongInfo = styled.Text`
   color: #e75345;
-  font-size: 15px;
-  margin-top: 4px;
+  font-size: 17px;
 `;
 
 const WrongKo = styled.Text`
   color: #263f40;
-  font-size: 17px;
-  margin-top: 6px;
+  font-size: 18px;
+  margin-top: 10px;
 `;
+
 const BookSelectBox = styled.View`
   flex: 1;
   align-items: center;
@@ -400,5 +437,43 @@ const BookButton = styled.TouchableOpacity`
 const BookButtonText = styled.Text`
   color: #087ca7;
   font-size: 18px;
+  font-weight: bold;
+`;
+
+const WrongTopRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const PinyinRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 6px;
+  gap: 10px;
+`;
+
+const SoundButton = styled.TouchableOpacity`
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background-color: #eaf6ff;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SoundButtonText = styled.Text`
+  font-size: 20px;
+`;
+
+const SmallSoundButton = styled.TouchableOpacity`
+  background-color: #eaf6ff;
+  border-radius: 12px;
+  padding: 5px 10px;
+`;
+
+const SmallSoundText = styled.Text`
+  color: #2479b5;
+  font-size: 12px;
   font-weight: bold;
 `;

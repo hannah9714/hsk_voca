@@ -1,3 +1,4 @@
+import * as Speech from "expo-speech";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
 
@@ -10,27 +11,55 @@ export default function QuizCard({
   showPinyin,
   onTogglePinyin,
 }) {
-  return (
-    <Card selected={selected} style={style} onPress={onPress}>
-      {type === "zh" ? (
-        <CardText type="zh">{word.zh}</CardText>
-      ) : (
-        <CardTextContainer>
-          <CardText type="ko">{word.ko.join(", ")}</CardText>
+  const speakWord = (e) => {
+    e?.stopPropagation?.();
 
+    Speech.stop();
+
+    Speech.speak(word.zh, {
+      language: "zh-CN",
+      rate: 0.5,
+      pitch: 0.7,
+    });
+  };
+
+  return (
+    <Card
+      $selected={selected}
+      style={style}
+      onPress={onPress}
+      activeOpacity={0.85}
+    >
+      <MainArea>
+        <CardText $type={type}>
+          {type === "zh"
+            ? word.zh
+            : Array.isArray(word.ko)
+              ? word.ko.join(", ")
+              : word.ko}
+        </CardText>
+      </MainArea>
+
+      {/* 한국어 카드에만 병음 + 소리 버튼 */}
+      {type === "ko" && (
+        <BottomArea>
           <PinyinButton
             onPress={(e) => {
               e.stopPropagation();
-              onTogglePinyin();
+              onTogglePinyin?.();
             }}
           >
             {showPinyin ? (
               <PinyinText>{word.pinyin}</PinyinText>
             ) : (
-              <PinyinHint>발음</PinyinHint>
+              <PinyinHint>병음</PinyinHint>
             )}
           </PinyinButton>
-        </CardTextContainer>
+
+          <SoundButton onPress={speakWord}>
+            <SoundText>🔊</SoundText>
+          </SoundButton>
+        </BottomArea>
       )}
     </Card>
   );
@@ -40,32 +69,69 @@ const Card = styled(
   Animated.createAnimatedComponent(styled.TouchableOpacity``),
 )`
   width: 120px;
-  height: 100px;
-  background-color: ${(props) => (props.selected ? "#ffd166" : "#fffdf0")};
+  height: 140px;
+
+  background-color: ${(props) => (props.$selected ? "#ffd166" : "#fffdf0")};
+
   border-radius: 22px;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
 `;
 
-const CardTextContainer = styled.View`
+const MainArea = styled.View`
   flex: 1;
-  justify-content: space-between;
-  padding-top: 30px;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 12px 9px;
 `;
 
 const CardText = styled.Text`
   color: #263f40;
-  font-size: ${(props) => (props.type === "ko" ? "17px" : "22px")};
+
+  font-size: ${(props) => (props.$type === "zh" ? "24px" : "16px")};
+
+  line-height: ${(props) => (props.$type === "zh" ? "31px" : "21px")};
+
   font-weight: bold;
   text-align: center;
+
+  flex-shrink: 1;
+`;
+
+const BottomArea = styled.View`
+  height: 38px;
+
+  flex-direction: row;
+
+  background-color: #f2ead7;
+
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
 `;
 
 const PinyinButton = styled.TouchableOpacity`
-  width: 120px;
-  height: 32px;
-  border-bottom-left-radius: 22px;
-  border-bottom-right-radius: 22px;
-  background-color: #f2ead7;
+  flex: 1;
+
+  justify-content: center;
+  align-items: center;
+
+  padding-horizontal: 4px;
+`;
+
+const SoundButton = styled.TouchableOpacity`
+  width: 42px;
+
+  justify-content: center;
+  align-items: center;
+
+  border-left-width: 1px;
+  border-left-color: #ded4bf;
+`;
+
+const FullSoundButton = styled.TouchableOpacity`
+  flex: 1;
+
   justify-content: center;
   align-items: center;
 `;
@@ -74,10 +140,17 @@ const PinyinText = styled.Text`
   color: #e75345;
   font-size: 12px;
   font-weight: bold;
+  text-align: center;
 `;
 
 const PinyinHint = styled.Text`
   color: #999;
+  font-size: 12px;
+  font-weight: bold;
+`;
+
+const SoundText = styled.Text`
+  color: #2479b5;
   font-size: 12px;
   font-weight: bold;
 `;

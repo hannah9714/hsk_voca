@@ -1,6 +1,6 @@
 import Header from "@/components/appUI/Header";
 import QuizCard from "@/components/appUI/QuizCard";
-import { Day2, Day3, Day4, Day5 } from "@/constants/hskDay/hskDAll";
+import { Day2, Day3, Day4, Day5, Day6 } from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
 import * as Speech from "expo-speech";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +15,7 @@ export default function App() {
     { id: "Day 3", title: "Day 3", data: Day3 },
     { id: "Day 4", title: "Day 4", data: Day4 },
     { id: "Day 5", title: "Day 5", data: Day5 },
+    { id: "Day 6", title: "Day 6", data: Day6 },
   ];
 
   const { refresh } = useLocalSearchParams();

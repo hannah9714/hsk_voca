@@ -8,6 +8,7 @@ import {
   Day5,
   Day6,
   Day7,
+  Day8,
 } from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
 import * as Speech from "expo-speech";
@@ -26,6 +27,7 @@ export default function App() {
     { id: "Day 5", title: "Day 5", data: Day5 },
     { id: "Day 6", title: "Day 6", data: Day6 },
     { id: "Day 7", title: "Day 7", data: Day7 },
+    { id: "Day 8", title: "Day 8", data: Day8 },
   ];
 
   const { refresh } = useLocalSearchParams();
@@ -209,7 +211,14 @@ export default function App() {
     <Container>
       <Header />
       {!selectedBook ? (
-        <BookSelectBox>
+        <BookSelectScroll
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: "center",
+            paddingTop: 30,
+            paddingBottom: 50,
+          }}
+        >
           <BookTitle>단어장을 선택해주세요</BookTitle>
 
           {WORD_BOOKS.map((book) => (
@@ -226,7 +235,7 @@ export default function App() {
               <BookButtonText>{book.title}</BookButtonText>
             </BookButton>
           ))}
-        </BookSelectBox>
+        </BookSelectScroll>
       ) : (
         <ContentContainer>
           {isFinished ? (
@@ -430,11 +439,9 @@ const WrongKo = styled.Text`
   margin-top: 10px;
 `;
 
-const BookSelectBox = styled.View`
+const BookSelectScroll = styled.ScrollView`
   flex: 1;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
+  width: 100%;
 `;
 
 const BookTitle = styled.Text`
@@ -446,10 +453,12 @@ const BookTitle = styled.Text`
 
 const BookButton = styled.TouchableOpacity`
   background-color: white;
-  padding: 16px 30px;
+  padding: 20px 30px;
   border-radius: 18px;
   width: 220px;
+
   align-items: center;
+  margin-bottom: 20px;
 `;
 
 const BookButtonText = styled.Text`

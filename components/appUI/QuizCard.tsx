@@ -34,7 +34,7 @@ export default function QuizCard({
     >
       <MainArea>
         {type === "zh" ? (
-          <ChineseRow>
+          <>
             <CardText $type={type}>{word.zh}</CardText>
 
             <MarkButton
@@ -45,7 +45,7 @@ export default function QuizCard({
             >
               <MarkText>{marked ? "★" : "☆"}</MarkText>
             </MarkButton>
-          </ChineseRow>
+          </>
         ) : (
           <CardText $type={type}>{word.ko.join(", ")}</CardText>
         )}
@@ -86,15 +86,6 @@ const Card = styled(
 
   border-radius: 22px;
   overflow: hidden;
-`;
-
-const MainArea = styled.View`
-  flex: 1;
-
-  justify-content: center;
-  align-items: center;
-
-  padding: 12px 9px;
 `;
 
 const CardText = styled.Text`
@@ -140,13 +131,6 @@ const SoundButton = styled.TouchableOpacity`
   border-left-color: #ded4bf;
 `;
 
-const FullSoundButton = styled.TouchableOpacity`
-  flex: 1;
-
-  justify-content: center;
-  align-items: center;
-`;
-
 const PinyinText = styled.Text`
   color: #e75345;
   font-size: 12px;
@@ -165,18 +149,27 @@ const SoundText = styled.Text`
   font-size: 12px;
   font-weight: bold;
 `;
-const ChineseRow = styled.View`
-  flex-direction: row;
-  align-items: center;
+
+const MainArea = styled.View`
+  flex: 1;
+  position: relative;
+
   justify-content: center;
-  gap: 8px;
+  align-items: center;
+
+  padding: 12px 9px;
 `;
 
 const MarkButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 6px;
+  right: 6px;
+
   padding: 5px;
+  z-index: 10;
 `;
 
 const MarkText = styled.Text`
-  font-size: 22px;
+  font-size: 29px;
   color: #f2b705;
 `;

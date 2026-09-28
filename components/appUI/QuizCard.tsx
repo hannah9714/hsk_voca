@@ -9,6 +9,8 @@ export default function QuizCard({
   style,
   onPress,
   showPinyin,
+  marked,
+  onToggleMark,
   onTogglePinyin,
 }) {
   const speakWord = (e) => {
@@ -31,13 +33,22 @@ export default function QuizCard({
       activeOpacity={0.85}
     >
       <MainArea>
-        <CardText $type={type}>
-          {type === "zh"
-            ? word.zh
-            : Array.isArray(word.ko)
-              ? word.ko.join(", ")
-              : word.ko}
-        </CardText>
+        {type === "zh" ? (
+          <ChineseRow>
+            <CardText $type={type}>{word.zh}</CardText>
+
+            <MarkButton
+              onPress={(e) => {
+                e.stopPropagation();
+                onToggleMark?.();
+              }}
+            >
+              <MarkText>{marked ? "★" : "☆"}</MarkText>
+            </MarkButton>
+          </ChineseRow>
+        ) : (
+          <CardText $type={type}>{word.ko.join(", ")}</CardText>
+        )}
       </MainArea>
 
       {/* 한국어 카드에만 병음 + 소리 버튼 */}
@@ -153,4 +164,19 @@ const SoundText = styled.Text`
   color: #2479b5;
   font-size: 12px;
   font-weight: bold;
+`;
+const ChineseRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const MarkButton = styled.TouchableOpacity`
+  padding: 5px;
+`;
+
+const MarkText = styled.Text`
+  font-size: 22px;
+  color: #f2b705;
 `;

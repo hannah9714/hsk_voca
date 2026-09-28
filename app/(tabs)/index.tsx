@@ -1,6 +1,14 @@
 import Header from "@/components/appUI/Header";
 import QuizCard from "@/components/appUI/QuizCard";
-import { Day2, Day3, Day4, Day5, Day6 } from "@/constants/hskDay/hskDAll";
+import {
+  Day1,
+  Day2,
+  Day3,
+  Day4,
+  Day5,
+  Day6,
+  Day7,
+} from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
 import * as Speech from "expo-speech";
 import { useEffect, useRef, useState } from "react";
@@ -11,11 +19,13 @@ const PAGE_SIZE = 8;
 
 export default function App() {
   const WORD_BOOKS = [
+    { id: "Day 1", title: "Day 1", data: Day1 },
     { id: "Day 2", title: "Day 2", data: Day2 },
     { id: "Day 3", title: "Day 3", data: Day3 },
     { id: "Day 4", title: "Day 4", data: Day4 },
     { id: "Day 5", title: "Day 5", data: Day5 },
     { id: "Day 6", title: "Day 6", data: Day6 },
+    { id: "Day 7", title: "Day 7", data: Day7 },
   ];
 
   const { refresh } = useLocalSearchParams();
@@ -30,7 +40,7 @@ export default function App() {
   const [selectedKo, setSelectedKo] = useState(null);
   const [isShaking, setIsShaking] = useState(false);
 
-  const [wrongWords, setWrongWords] = useState([]);
+  const [reviewWords, setReviewWords] = useState([]);
   const [isFinished, setIsFinished] = useState(false);
 
   const shakeAnim = useRef(new Animated.Value(0)).current;
@@ -60,7 +70,7 @@ export default function App() {
     setRightCards([]);
     setSelectedEn(null);
     setSelectedKo(null);
-    setWrongWords([]);
+    setReviewWords([]);
     setIsFinished(false);
     setShowPinyinId(null);
   }, [refresh]);
@@ -129,14 +139,6 @@ export default function App() {
         }
       }, 300);
     } else {
-      setWrongWords((prev) => {
-        const alreadyExists = prev.some((item) => item.id === zhWord.id);
-
-        if (alreadyExists) return prev;
-
-        return [...prev, zhWord];
-      });
-
       shakeCard();
 
       setTimeout(() => {
@@ -182,15 +184,25 @@ export default function App() {
 
   const resetGame = () => {
     setCurrentPage(0);
-
-    setWrongWords([]);
-
+    setReviewWords([]);
     setIsFinished(false);
 
     const firstWords = getCurrentWords(0);
 
     setLeftCards(firstWords);
     setRightCards(shuffleWords(firstWords));
+  };
+
+  const toggleReviewWord = (word) => {
+    setReviewWords((prev) => {
+      const alreadySaved = prev.some((item) => item.id === word.id);
+
+      if (alreadySaved) {
+        return prev.filter((item) => item.id !== word.id);
+      }
+
+      return [...prev, word];
+    });
   };
 
   return (
@@ -207,7 +219,8 @@ export default function App() {
                 setSelectedBook(book.id);
                 setCurrentPage(0);
                 setIsFinished(false);
-                setWrongWords([]);
+                setReviewWords([]);
+                setShowPinyinId(null);
               }}
             >
               <BookButtonText>{book.title}</BookButtonText>
@@ -218,17 +231,17 @@ export default function App() {
         <ContentContainer>
           {isFinished ? (
             <ResultBox>
-              <ResultTitle>틀린 단어</ResultTitle>
+              <ResultTitle>복습할 단어</ResultTitle>
 
               <ResultScroll
                 contentContainerStyle={{
                   paddingBottom: 30,
                 }}
               >
-                {wrongWords.length === 0 ? (
-                  <ResultText>틀린 단어가 없어요 🎉</ResultText>
+                {reviewWords.length === 0 ? (
+                  <ResultText>저장한 단어가 없어요 🎉</ResultText>
                 ) : (
-                  wrongWords.map((word) => (
+                  reviewWords.map((word) => (
                     <WrongWordCard key={word.id}>
                       <WrongTopRow>
                         <WrongZh>{word.zh}</WrongZh>
@@ -276,6 +289,10 @@ export default function App() {
                           selected={isSelected}
                           style={getShakeStyle(isSelected)}
                           onPress={() => handleChineseClick(word)}
+                          marked={reviewWords.some(
+                            (item) => item.id === word.id,
+                          )}
+                          onToggleMark={() => toggleReviewWord(word)}
                         />
                       );
                     })}

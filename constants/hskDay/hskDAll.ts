@@ -6,5 +6,7 @@ import { Day5 } from "./hskD5";
 import { Day6 } from "./hskD6";
 import { Day7 } from "./hskD7";
 import { Day8 } from "./hskD8";
+import { Day9 } from "./hskD9";
+import { Day10 } from "./hskD10";
 
-export { Day1, Day2, Day3, Day4, Day5, Day6, Day7, Day8 };
+export { Day1, Day2, Day3, Day4, Day5, Day6, Day7, Day8, Day9, Day10 };

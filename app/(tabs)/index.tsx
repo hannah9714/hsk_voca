@@ -9,6 +9,8 @@ import {
   Day6,
   Day7,
   Day8,
+  Day9,
+  Day10,
 } from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
 import * as Speech from "expo-speech";
@@ -28,6 +30,8 @@ export default function App() {
     { id: "Day 6", title: "Day 6", data: Day6 },
     { id: "Day 7", title: "Day 7", data: Day7 },
     { id: "Day 8", title: "Day 8", data: Day8 },
+    { id: "Day 9", title: "Day 9", data: Day9 },
+    { id: "Day 10", title: "Day 10", data: Day10 },
   ];
 
   const { refresh } = useLocalSearchParams();
@@ -179,8 +183,8 @@ export default function App() {
 
     Speech.speak(text, {
       language: "zh-CN",
-      rate: 0.75,
-      pitch: 1.0,
+      rate: 0.5,
+      pitch: 0.7,
     });
   };
 

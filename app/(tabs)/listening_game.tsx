@@ -244,77 +244,85 @@ export default function ListeningGame() {
   // =========================
   // 게임 화면
   // =========================
-
   return (
     <Container>
-      <GameContainer>
-        <TopRow>
-          <SmallBackButton onPress={goBack}>
-            <SmallBackText>‹</SmallBackText>
-          </SmallBackButton>
+      <GameScroll
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 30,
+        }}
+      >
+        <GameContainer>
+          <TopRow>
+            <SmallBackButton onPress={goBack}>
+              <SmallBackText>‹</SmallBackText>
+            </SmallBackButton>
 
-          <Progress>
-            {currentIndex + 1} / {questions.length}
-          </Progress>
+            <Progress>
+              {currentIndex + 1} / {questions.length}
+            </Progress>
 
-          <EmptySpace />
-        </TopRow>
+            <EmptySpace />
+          </TopRow>
 
-        <QuestionArea>
-          <ListenText>뭐라고 들려?</ListenText>
+          <QuestionArea>
+            <ListenText>뭐라고 들려?</ListenText>
 
-          <SpeakerButton onPress={() => speak(currentWord.zh)}>
-            <SpeakerEmoji>🔊</SpeakerEmoji>
-          </SpeakerButton>
+            <SpeakerButton onPress={() => speak(currentWord.zh)}>
+              <SpeakerEmoji>🔊</SpeakerEmoji>
+            </SpeakerButton>
 
-          <ReplayText>눌러서 다시 듣기</ReplayText>
+            <ReplayText>눌러서 다시 듣기</ReplayText>
+
+            {showAnswer && (
+              <AnswerReveal>
+                <ChineseText>{currentWord.zh}</ChineseText>
+                <PinyinText>{currentWord.pinyin}</PinyinText>
+              </AnswerReveal>
+            )}
+          </QuestionArea>
+
+          <ChoiceArea>
+            {choices.map((word) => {
+              const isCorrect = showAnswer && word.id === currentWord.id;
+
+              const isWrong = wrongChoice?.id === word.id;
+
+              return (
+                <ChoiceButton
+                  key={word.id}
+                  onPress={() => handleChoice(word)}
+                  $correct={isCorrect}
+                  $wrong={isWrong}
+                >
+                  <ChoiceText>
+                    {Array.isArray(word.ko) ? word.ko.join(", ") : word.ko}
+                  </ChoiceText>
+                </ChoiceButton>
+              );
+            })}
+          </ChoiceArea>
 
           {showAnswer && (
-            <AnswerReveal>
-              <ChineseText>{currentWord.zh}</ChineseText>
-
-              <PinyinText>{currentWord.pinyin}</PinyinText>
-            </AnswerReveal>
+            <NextButton onPress={handleNext}>
+              <NextButtonText>
+                {currentIndex === questions.length - 1 ? "완료 ✓" : "다음 →"}
+              </NextButtonText>
+            </NextButton>
           )}
-        </QuestionArea>
 
-        <ChoiceArea>
-          {choices.map((word) => {
-            const isCorrect = showAnswer && word.id === currentWord.id;
-
-            const isWrong = wrongChoice?.id === word.id;
-
-            return (
-              <ChoiceButton
-                key={word.id}
-                onPress={() => handleChoice(word)}
-                $correct={isCorrect}
-                $wrong={isWrong}
-              >
-                <ChoiceText>
-                  {Array.isArray(word.ko) ? word.ko.join(", ") : word.ko}
-                </ChoiceText>
-              </ChoiceButton>
-            );
-          })}
-        </ChoiceArea>
-        {showAnswer && (
-          <NextButton onPress={handleNext}>
-            <NextButtonText>
-              {currentIndex === questions.length - 1 ? "완료 ✓" : "다음 →"}
-            </NextButtonText>
-          </NextButton>
-        )}
-        <BottomProgress>
-          <ProgressBar>
-            <ProgressFill
-              style={{
-                width: `${((currentIndex + 1) / questions.length) * 100}%`,
-              }}
-            />
-          </ProgressBar>
-        </BottomProgress>
-      </GameContainer>
+          <BottomProgress>
+            <ProgressBar>
+              <ProgressFill
+                style={{
+                  width: `${((currentIndex + 1) / questions.length) * 100}%`,
+                }}
+              />
+            </ProgressBar>
+          </BottomProgress>
+        </GameContainer>
+      </GameScroll>
     </Container>
   );
 }
@@ -326,6 +334,10 @@ export default function ListeningGame() {
 const Container = styled.SafeAreaView`
   flex: 1;
   background-color: #f4f9ff;
+`;
+const GameScroll = styled.ScrollView`
+  flex: 1;
+  width: 100%;
 `;
 
 const DayScroll = styled.ScrollView`

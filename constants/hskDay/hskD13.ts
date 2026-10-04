@@ -1,0 +1,93 @@
+export const Day13 = [
+  { id: 1, zh: "中国", pinyin: "zhōngguó", ko: ["중국", "중화인민공화국"] },
+  { id: 2, zh: "汉语", pinyin: "Hànyǔ", ko: ["중국어", "한어"] },
+  { id: 3, zh: "中文", pinyin: "Zhōngwén", ko: ["중국어", "중문"] },
+  { id: 4, zh: "北京", pinyin: "Běijīng", ko: ["베이징", "북경"] },
+  { id: 5, zh: "的", pinyin: "de", ko: ["~의"] },
+  { id: 6, zh: "茶", pinyin: "chá", ko: ["차"] },
+
+  { id: 8, zh: "节日", pinyin: "jiérì", ko: ["명절", "기념일"] },
+  {
+    id: 9,
+    zh: "关心",
+    pinyin: "guānxīn",
+    ko: ["관심을 갖다", "관심을 기울이다"],
+  },
+  { id: 10, zh: "北方", pinyin: "běifāng", ko: ["북방", "북쪽", "북부 지역"] },
+
+  { id: 11, zh: "熊猫", pinyin: "xióngmāo", ko: ["판다"] },
+  { id: 12, zh: "机会", pinyin: "jīhuì", ko: ["기회"] },
+  {
+    id: 13,
+    zh: "明白",
+    pinyin: "míngbai",
+    ko: ["이해하다", "알다", "분명하다", "명백하다"],
+  },
+
+  {
+    id: 14,
+    zh: "当然",
+    pinyin: "dāngrán",
+    ko: ["당연히", "물론", "당연하다", "물론이다"],
+  },
+  { id: 15, zh: "放", pinyin: "fàng", ko: ["넣다", "놓다", "두다"] },
+  { id: 16, zh: "普通话", pinyin: "pǔtōnghuà", ko: ["표준어", "보통화"] },
+
+  { id: 17, zh: "文化", pinyin: "wénhuà", ko: ["문화"] },
+  { id: 18, zh: "之", pinyin: "zhī", ko: ["~의"] },
+  {
+    id: 19,
+    zh: "比如",
+    pinyin: "bǐrú",
+    ko: ["~이 예다", "예를 들면", "예컨대"],
+  },
+  { id: 20, zh: "长城", pinyin: "Chángchéng", ko: ["만리장성"] },
+
+  { id: 21, zh: "长江", pinyin: "Chángjiāng", ko: ["창장", "창장강"] },
+  { id: 22, zh: "黄河", pinyin: "Huánghé", ko: ["황허", "황허강"] },
+  { id: 23, zh: "出现", pinyin: "chūxiàn", ko: ["나타나다", "출현하다"] },
+
+  {
+    id: 24,
+    zh: "发生",
+    pinyin: "fāshēng",
+    ko: ["생기다", "일어나다", "발생하다"],
+  },
+  { id: 25, zh: "改变", pinyin: "gǎibiàn", ko: ["바꾸다", "변하다", "고치다"] },
+  { id: 26, zh: "世纪", pinyin: "shìjì", ko: ["세기"] },
+  { id: 27, zh: "因此", pinyin: "yīncǐ", ko: ["그래서", "이로 인하여"] },
+  {
+    id: 28,
+    zh: "功夫",
+    pinyin: "gōngfu",
+    ko: [
+      "쿵후",
+      "중국 무술",
+      "재주",
+      "솜씨",
+      "(일을 하기 위해) 들인 시간과 노력",
+    ],
+  },
+  { id: 29, zh: "动作", pinyin: "dòngzuò", ko: ["동작", "행동"] },
+  { id: 30, zh: "京剧", pinyin: "jīngjù", ko: ["경극"] },
+  { id: 31, zh: "本来", pinyin: "běnlái", ko: ["본래", "원래", "본래의"] },
+  {
+    id: 32,
+    zh: "原来",
+    pinyin: "yuánlái",
+    ko: ["원래", "알고 보니", "원래의", "본래"],
+  },
+  { id: 33, zh: "富", pinyin: "fù", ko: ["부유하다", "많다", "풍부하다"] },
+  { id: 34, zh: "民族", pinyin: "mínzú", ko: ["민족"] },
+  { id: 35, zh: "来自", pinyin: "láizì", ko: ["~에서 오다", "~으로부터 오다"] },
+  { id: 36, zh: "友谊", pinyin: "yǒuyì", ko: ["우정", "우의"] },
+  { id: 37, zh: "仍然", pinyin: "réngrán", ko: ["여전히", "변함없이"] },
+  { id: 38, zh: "小伙子", pinyin: "xiǎohuǒzi", ko: ["젊은이", "청년"] },
+  { id: 39, zh: "甚至", pinyin: "shènzhì", ko: ["심지어", "~까지도"] },
+  {
+    id: 40,
+    zh: "相反",
+    pinyin: "xiāngfǎn",
+    ko: ["상반되다", "반대로", "도리어"],
+  },
+];

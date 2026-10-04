@@ -9,5 +9,19 @@ import { Day8 } from "./hskD8";
 import { Day9 } from "./hskD9";
 import { Day10 } from "./hskD10";
 import { Day11 } from "./hskD11";
+import { Day12 } from "./hskD12";
 
-export { Day1, Day2, Day3, Day4, Day5, Day6, Day7, Day8, Day9, Day10, Day11 };
+export {
+  Day1,
+  Day2,
+  Day3,
+  Day4,
+  Day5,
+  Day6,
+  Day7,
+  Day8,
+  Day9,
+  Day10,
+  Day11,
+  Day12,
+};

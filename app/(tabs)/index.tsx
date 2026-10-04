@@ -14,6 +14,7 @@ import {
   Day11,
   Day12,
   Day13,
+  Day14,
 } from "@/constants/hskDay/hskDAll";
 import { useLocalSearchParams } from "expo-router";
 import * as Speech from "expo-speech";
@@ -38,6 +39,7 @@ export default function App() {
     { id: "Day 11", title: "Day 11", data: Day11 },
     { id: "Day 12", title: "Day 12", data: Day12 },
     { id: "Day 13", title: "Day 13", data: Day13 },
+    { id: "Day 14", title: "Day 14", data: Day14 },
   ];
 
   const { refresh } = useLocalSearchParams();

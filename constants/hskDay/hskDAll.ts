@@ -12,6 +12,7 @@ import { Day11 } from "./hskD11";
 import { Day12 } from "./hskD12";
 import { Day13 } from "./hskD13";
 import { Day14 } from "./hskD14";
+import { Day15 } from "./hskD15";
 export {
   Day1,
   Day2,
@@ -27,4 +28,5 @@ export {
   Day12,
   Day13,
   Day14,
+  Day15,
 };
